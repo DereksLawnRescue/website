@@ -28,6 +28,8 @@
   --pad-line:#9DC3E0;
   --pad-margin:#E07A72;
   --pad-ink:#1D2A20;
+  --field:#FFFEF8;      /* solid field fill on the pad */
+  --field-line:#B9B08A;
   --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
   --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
@@ -35,11 +37,11 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#121A24;--surface:#19232F;--ink:#E9EDF2;--muted:#A3AEBB;--line:#2A3747;--head:#0B1119;
   --band:#1A2A3D;--band-ink:#EEF1F5;--accent:#E2BE7E;--accent-ink:#1E2A38;--denim-text:#A9C1DE;
-  --pad:#3A381C;--pad-line:#3F5568;--pad-margin:#8A4A45;--pad-ink:#F4F0CC;color-scheme:dark}}
+  --pad:#3A381C;--pad-line:#3F5568;--pad-margin:#8A4A45;--pad-ink:#F4F0CC;--field:#22211A;--field-line:#6E6A45;color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#121A24;--surface:#19232F;--ink:#E9EDF2;--muted:#A3AEBB;--line:#2A3747;--head:#0B1119;
   --band:#1A2A3D;--band-ink:#EEF1F5;--accent:#E2BE7E;--accent-ink:#1E2A38;--denim-text:#A9C1DE;
-  --pad:#3A381C;--pad-line:#3F5568;--pad-margin:#8A4A45;--pad-ink:#F4F0CC;color-scheme:dark}
+  --pad:#3A381C;--pad-line:#3F5568;--pad-margin:#8A4A45;--pad-ink:#F4F0CC;--field:#22211A;--field-line:#6E6A45;color-scheme:dark}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -77,9 +79,21 @@ footer nav a:hover{opacity:1;text-decoration:underline}
 
 /* hero */
 .hero{background:var(--band);color:var(--band-ink);padding-block:40px 64px}
-.hero .wrap{display:grid;gap:22px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center}
+.hero .copy{display:grid;gap:22px;min-width:0}
+.ba{margin:0;display:grid;gap:10px;min-width:0}
+.ba-frame{position:relative;aspect-ratio:4/3;max-width:100%;border-radius:10px;overflow:hidden;box-shadow:0 20px 40px -24px rgba(0,0,0,.6);--pos:50%;touch-action:pan-y}
+.ba-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none}
+.ba-frame .before{clip-path:inset(0 calc(100% - var(--pos)) 0 0)}
+.ba-frame .handle{position:absolute;top:0;bottom:0;left:var(--pos);width:3px;margin-left:-1.5px;background:var(--band-ink);pointer-events:none}
+.ba-frame .handle::after{content:"";position:absolute;top:50%;left:50%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:var(--accent);box-shadow:0 2px 10px rgba(0,0,0,.35);content:"\2039\2009\203A";display:grid;place-items:center;font:700 22px/1 var(--body);color:var(--accent-ink)}
+.ba-frame input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+.ba-frame input:focus-visible + .handle::after{outline:3px solid var(--band-ink);outline-offset:2px}
+.ba-tag{position:absolute;top:12px;font:500 .72rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;border-radius:4px;background:rgba(16,24,34,.72);color:#F7F5F1;pointer-events:none}
+.ba-tag.l{left:12px}.ba-tag.r{right:12px}
+.ba figcaption{font-size:.9rem;opacity:.85}
 .hero .label{color:var(--accent)}
-.hero h1{font-size:clamp(3.4rem,13vw,7.6rem);max-width:11ch}
+.hero h1{font-size:clamp(3.2rem,8vw,6.4rem);max-width:11ch}
 .hero h1 em{font-style:normal;color:var(--accent)}
 .hero p.lede{font-size:1.15rem;max-width:34em;opacity:.92}
 .hero .actions{display:flex;gap:12px;flex-wrap:wrap}
@@ -123,15 +137,16 @@ form{display:grid;gap:16px}
 .field{display:grid;gap:6px;min-width:0}
 .field label,.field legend{font-weight:700;font-size:.92rem}
 .field small{font-size:.82rem;opacity:.8}
-input,select,textarea{width:100%;font:500 1rem/1.4 var(--body);color:var(--pad-ink);background:rgba(255,255,255,.55);border:1.5px solid rgba(29,42,32,.35);border-radius:6px;padding:11px 12px}
+input,select,textarea{width:100%;font:500 1rem/1.4 var(--body);color:var(--pad-ink);background:var(--field);border:1.5px solid var(--field-line);border-radius:6px;padding:11px 12px}
+input::placeholder,textarea::placeholder{color:var(--pad-ink);opacity:.5}
 textarea{min-height:130px;resize:vertical}
 fieldset{border:0;padding:0;margin:0;display:grid;gap:8px}
 .choices{display:flex;flex-wrap:wrap;gap:8px}
-.choices label{display:flex;align-items:center;gap:8px;font-weight:600;font-size:.95rem;background:rgba(255,255,255,.55);border:1.5px solid rgba(29,42,32,.35);border-radius:999px;padding:8px 14px;cursor:pointer}
+.choices label{display:flex;align-items:center;gap:8px;font-weight:600;font-size:.95rem;background:var(--field);border:1.5px solid var(--field-line);border-radius:999px;padding:8px 14px;cursor:pointer}
 .choices input{width:auto;margin:0;accent-color:var(--band)}
 .hp{position:absolute;left:-9999px}
 .form-note{font-size:.85rem;opacity:.85}
-.status{font-weight:700;padding:12px 14px;border-radius:6px;background:rgba(255,255,255,.65)}
+.status{font-weight:700;padding:12px 14px;border-radius:6px;background:var(--field)}
 
 /* about */
 .portrait{width:100%;max-width:360px;height:auto;aspect-ratio:4/5;border-radius:10px;margin-top:20px;display:block}
@@ -155,7 +170,8 @@ footer .wrap{display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap;
 footer nav{flex-wrap:wrap}
 
 @media (max-width:760px){
-  .video,.nom,.about,.duo{grid-template-columns:1fr}
+  .video,.nom,.about,.duo,.hero .wrap{grid-template-columns:1fr}
+  .hero h1{font-size:clamp(3rem,15vw,4.6rem)}
   .video .info{padding:0 4px 6px}
   .row2{grid-template-columns:1fr}
   .pad{padding-left:50px;padding-right:16px}
@@ -181,17 +197,29 @@ footer nav{flex-wrap:wrap}
 <main id="top">
   <div class="hero">
     <div class="wrap">
-      <p class="label">Free property cleanups · West Texas</p>
-      <h1>Now we can't have <em>that</em> here.</h1>
-      <p class="lede">I clean up overgrown yards and properties for people who have fallen behind, completely free and no questions asked. Then I put the whole thing on YouTube.</p>
-      <div class="actions">
-        <a class="btn btn-main" href="#nominate">Nominate someone</a>
-        <a class="btn btn-ghost" href="#watch">Watch the latest</a>
+      <div class="copy">
+        <p class="label">Free property cleanups · West Texas</p>
+        <h1>Now we can't have <em>that</em> here.</h1>
+        <p class="lede">I clean up overgrown yards and properties for people who have fallen behind, completely free and no questions asked. Then I put the whole thing on YouTube.</p>
+        <div class="actions">
+          <a class="btn btn-main" href="#nominate">Nominate someone</a>
+          <a class="btn btn-ghost" href="#watch">Watch the latest</a>
+        </div>
+        <div class="proof">
+          <div><b>40K+</b>subscribers on YouTube</div>
+          <div><b>$0</b>cost to the homeowner, ever</div>
+        </div>
       </div>
-      <div class="proof">
-        <div><b>40K+</b>subscribers on YouTube</div>
-        <div><b>$0</b>cost to the homeowner, ever</div>
-      </div>
+      <figure class="ba">
+        <div class="ba-frame" id="ba">
+          <img class="after" src="img/after.jpg" width="1200" height="900" alt="The same backyard after the cleanup, cleared down to the dirt">
+          <img class="before" src="img/before.jpg" width="1200" height="900" alt="An overgrown backyard with weeds taller than the fence">
+          <span class="ba-tag l">Before</span><span class="ba-tag r">After</span>
+          <input type="range" id="ba-range" min="0" max="100" value="50" aria-label="Drag to compare before and after">
+          <span class="handle" aria-hidden="true"></span>
+        </div>
+        <figcaption>Drag to see it. Same backyard, three days apart.</figcaption>
+      </figure>
     </div>
   </div>
 
@@ -323,6 +351,8 @@ footer nav{flex-wrap:wrap}
 const PARTNER = { name: "", blurb: "", url: "", button: "Check them out" };
 
 (function(){
+  const ba=document.getElementById('ba'), br=document.getElementById('ba-range');
+  if(ba&&br){ const set=()=>ba.style.setProperty('--pos', br.value+'%'); br.addEventListener('input',set); set(); }
   if (PARTNER.name) {
     document.getElementById('partner-label').textContent = 'Featured partner';
     document.getElementById('partner-name').textContent = PARTNER.name;
