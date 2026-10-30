@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crew Wall</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="The Trailer Fund. Every Rescue Crew sticker puts $15 toward a dump trailer for bigger cleanups. See the fund and every crew name.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Crew Wall: denim band with the fund bar up top, then the numbered wall of names on porch white */
+:root{
+  --bg:#F7F5F1;--surface:#FFFFFF;--ink:#1E2A38;--muted:#56616E;--line:#E2DED6;
+  --head:#1E2A38;--band:#24384F;--band-ink:#F7F5F1;--accent:#D9B26F;--accent-ink:#1E2A38;
+  --track:rgba(247,245,241,.16);--chip:#FFFFFF;--num:#24384F;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121A24;--surface:#19232F;--ink:#E9EDF2;--muted:#A3AEBB;--line:#2A3747;--head:#0B1119;
+  --band:#1A2A3D;--band-ink:#EEF1F5;--accent:#E2BE7E;--accent-ink:#1E2A38;--track:rgba(238,241,245,.14);--chip:#19232F;--num:#E2BE7E;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121A24;--surface:#19232F;--ink:#E9EDF2;--muted:#A3AEBB;--line:#2A3747;--head:#0B1119;
+  --band:#1A2A3D;--band-ink:#EEF1F5;--accent:#E2BE7E;--accent-ink:#1E2A38;--track:rgba(238,241,245,.14);--chip:#19232F;--num:#E2BE7E;color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2{font-family:var(--display);font-weight:900;line-height:.95;text-transform:uppercase;text-wrap:balance;margin:0}
+p{margin:0}
+.label{font:500 .78rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;border-radius:6px;font:700 1.05rem/1 var(--body);text-decoration:none;background:var(--accent);color:var(--accent-ink)}
+.btn:hover{filter:brightness(1.06)}
+a:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* header (same as the home page) */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--head)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--head);color:var(--band-ink);box-shadow:0 1px 0 rgba(255,255,255,.06)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px 20px;padding-block:12px;flex-wrap:wrap}
+.mark{font:900 1.35rem/1 var(--display);text-transform:uppercase;letter-spacing:.02em;text-decoration:none}
+.mark span{color:var(--accent)}
+nav.main{display:flex;gap:6px;font-weight:600;font-size:.95rem;flex-wrap:wrap}
+nav.main a{text-decoration:none;padding:9px 12px;border-radius:999px;opacity:.9}
+nav.main a:hover{opacity:1;background:rgba(255,255,255,.1)}
+nav.main a[aria-current="page"]{opacity:1;background:rgba(255,255,255,.14)}
+nav.main a.cta{background:var(--accent);color:var(--accent-ink);opacity:1}
+
+/* fund */
+.fund{background:var(--band);color:var(--band-ink);padding-block:40px 48px}
+.fund .wrap{display:grid;gap:22px;max-width:760px}
+.fund .label{color:var(--accent)}
+.fund h1{font-size:clamp(3.2rem,14vw,6rem)}
+.amount{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;font-variant-numeric:tabular-nums}
+.amount b{font:900 clamp(2.6rem,11vw,4rem)/1 var(--display);color:var(--accent)}
+.amount span{font-size:1.1rem;opacity:.9}
+.bar{height:28px;border-radius:999px;background:var(--track);overflow:hidden;border:1px solid rgba(255,255,255,.12)}
+.bar i{display:block;height:100%;width:0;border-radius:999px;background:var(--accent);transition:width .9s ease}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+.meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 16px;font-size:.95rem;font-variant-numeric:tabular-nums}
+.meta b{font-weight:700}
+.note{max-width:36em;font-size:1.02rem;opacity:.92}
+.fund .btn{justify-self:start}
+
+/* wall */
+.wall{padding-block:44px 56px}
+.wall .wrap{display:grid;gap:20px}
+.wall-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:14px}
+.wall h2{font-size:clamp(2.2rem,9vw,3.2rem)}
+.find{display:grid;gap:6px;min-width:0;flex:1 1 240px;max-width:340px}
+.find label{font-weight:700;font-size:.9rem}
+.find input{width:100%;font:500 1rem/1.4 var(--body);color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:6px;padding:11px 12px}
+.names{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.names li{display:flex;align-items:center;gap:10px;min-width:0;background:var(--chip);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+.names .n{font:500 .85rem/1 var(--mono);color:var(--num);min-width:2.4em;font-variant-numeric:tabular-nums}
+.names .who{font-weight:600;overflow-wrap:anywhere;min-width:0}
+.empty{background:var(--surface);border:1.5px dashed var(--line);border-radius:10px;padding:28px 20px;text-align:center;display:grid;gap:14px;justify-items:center}
+.empty p{font:900 clamp(1.6rem,7vw,2.2rem)/1 var(--display);text-transform:uppercase}
+.nomatch{color:var(--muted)}
+.updated{color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}
+
+footer{background:var(--head);color:var(--band-ink);padding-block:28px;font-size:.92rem}
+footer .wrap{display:flex;gap:16px;justify-content:space-between;flex-wrap:wrap}
+footer a{text-decoration:none;opacity:.85}
+footer a:hover{opacity:1;text-decoration:underline}
+
+@media (max-width:760px){
+  header.top .wrap{gap:8px}
+  nav.main{width:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-6px}
+  nav.main::-webkit-scrollbar{display:none}
+  nav.main a{padding:8px 10px;font-size:.9rem;white-space:nowrap}
+  .fund .btn{justify-self:stretch}
+  .names{grid-template-columns:1fr 1fr}
+}
+@media (max-width:380px){.names{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="../">Derek's <span>Community</span> Rescue</a>
+    <nav class="main" aria-label="Site">
+      <a href="../#watch">Watch</a><a href="../#about">About</a><a href="../#shop">Shop</a><a href="../#partner">Partners</a><a href="./" aria-current="page">Crew Wall</a><a class="cta" href="../#nominate">Nominate</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="fund" aria-labelledby="fund-title">
+    <div class="wrap">
+      <p class="label">Rescue Crew</p>
+      <h1 id="fund-title">The Trailer Fund</h1>
+      <p class="amount"><b id="raised">$0</b><span>raised of <span id="goal">$11,000</span></span></p>
+      <div class="bar" role="progressbar" id="bar" aria-label="Trailer Fund progress" aria-valuemin="0" aria-valuemax="11000" aria-valuenow="0"><i id="fill"></i></div>
+      <div class="meta"><span><b id="count">0</b> crew names so far</span><span id="pct">0% of the way there</span></div>
+      <p class="note">Every Rescue Crew sticker puts $15 toward a dump trailer for bigger cleanups. There's no set date: the trailer gets bought when this bar fills. If a sponsor covers the trailer first, the fund rolls over to the next machine we need. Every name here goes on the equipment.</p>
+      <a class="btn" href="https://dereks-lawn-rescue-shop.fourthwall.com/products/rescue-crew-trailer-sticker?utm_source=website&utm_medium=crew-wall" target="_blank" rel="noopener">Get your sticker</a>
+    </div>
+  </section>
+
+  <section class="wall" aria-labelledby="wall-title">
+    <div class="wrap">
+      <div class="wall-head">
+        <h2 id="wall-title">The Crew Wall</h2>
+        <div class="find" id="find" hidden>
+          <label for="find-input">Find your name</label>
+          <input id="find-input" type="search" placeholder="Type your name" autocomplete="off">
+        </div>
+      </div>
+      <ol class="names" id="names" aria-label="Crew names in the order they joined"></ol>
+      <div class="empty" id="empty" hidden>
+        <p>Be the first name on the trailer.</p>
+        <a class="btn" href="https://dereks-lawn-rescue-shop.fourthwall.com/products/rescue-crew-trailer-sticker?utm_source=website&utm_medium=crew-wall-empty" target="_blank" rel="noopener">Get your sticker</a>
+      </div>
+      <p class="nomatch" id="nomatch" hidden>No names match that yet.</p>
+      <p class="updated" id="updated">Updated every evening.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© Derek's Community Rescue</span>
+    <a href="../">Back to the home page</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const money = n => '$' + Math.round(Number(n) || 0).toLocaleString('en-US');
+  const $ = id => document.getElementById(id);
+
+  function render(f){
+    const goal = Number(f.goal) || 11000;
+    const raised = Math.max(0, Number(f.raised) || 0);
+    const names = (Array.isArray(f.names) ? f.names : [])
+      .map(x => typeof x === 'string' ? x : (x && (x.name || x.displayName)) || '')
+      .map(s => String(s).trim()).filter(Boolean);
+    const pct = Math.min(100, goal ? raised / goal * 100 : 0);
+
+    $('raised').textContent = money(raised);
+    $('goal').textContent = money(goal);
+    $('count').textContent = names.length.toLocaleString('en-US');
+    $('pct').textContent = pct >= 100 ? 'Fully funded!' : ((raised > 0 && pct < 1) ? 'Under 1%' : Math.floor(pct) + '%') + ' of the way there';
+    const bar = $('bar'); bar.setAttribute('aria-valuemax', goal); bar.setAttribute('aria-valuenow', raised);
+    bar.setAttribute('aria-valuetext', money(raised) + ' raised of ' + money(goal));
+    requestAnimationFrame(() => { $('fill').style.width = (raised > 0 ? Math.max(pct, 1.5) : 0) + '%'; });
+
+    const list = $('names'); list.textContent = '';
+    names.forEach((name, i) => {
+      const li = document.createElement('li');
+      const n = document.createElement('span'); n.className = 'n'; n.textContent = '#' + (i + 1);
+      const w = document.createElement('span'); w.className = 'who'; w.textContent = name;
+      li.dataset.q = name.toLowerCase(); li.append(n, w); list.append(li);
+    });
+    $('empty').hidden = names.length > 0;
+    list.hidden = names.length === 0;
+    $('find').hidden = names.length < 12;
+
+    const d = new Date(f.updated);
+    $('updated').textContent = 'Updated every evening.' + (isNaN(d) ? '' : ' Last update: ' + d.toLocaleString('en-US', {month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit', timeZoneName:'short'}) + '.');
+  }
+
+  $('find-input').addEventListener('input', e => {
+    const q = e.target.value.trim().toLowerCase(); let shown = 0;
+    document.querySelectorAll('#names li').forEach(li => { const ok = !q || li.dataset.q.includes(q); li.hidden = !ok; if (ok) shown++; });
+    $('nomatch').hidden = shown > 0;
+  });
+
+  const get = u => fetch(u + '?t=' + Date.now(), {cache:'no-store'}).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+  get('../data/fund.json').catch(() => get('data/fund.json'))
+    .then(render)
+    .catch(() => { render({goal:11000, raised:0, names:[]}); $('updated').textContent = "Couldn't load the fund just now. Refresh the page to try again."; });
+})();
+</script>
+
+</body>
+</html>
