@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Derek's Community Rescue</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Free yard and property cleanups in West Texas, filmed start to finish. Nominate someone who needs a hand, watch the latest video, or shop the merch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: sign-style header, then single column of bands: watch, nominate (yellow legal pad), about, shop + partner side by side, footer */
+/* Denim & Wheat: porch-white page, denim bands, wheat as the one warm accent */
+:root{
+  --bg:#F7F5F1;        /* porch white */
+  --surface:#FFFFFF;
+  --ink:#1E2A38;       /* night */
+  --muted:#56616E;
+  --line:#E2DED6;
+  --head:#1E2A38;      /* night header */
+  --band:#24384F;      /* denim */
+  --band-ink:#F7F5F1;
+  --accent:#D9B26F;    /* wheat */
+  --accent-ink:#1E2A38;
+  --denim-text:#24384F;
+  --pad:#FBF3A6;       /* yellow legal pad */
+  --pad-line:#9DC3E0;
+  --pad-margin:#E07A72;
+  --pad-ink:#1D2A20;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121A24;--surface:#19232F;--ink:#E9EDF2;--muted:#A3AEBB;--line:#2A3747;--head:#0B1119;
+  --band:#1A2A3D;--band-ink:#EEF1F5;--accent:#E2BE7E;--accent-ink:#1E2A38;--denim-text:#A9C1DE;
+  --pad:#3A381C;--pad-line:#3F5568;--pad-margin:#8A4A45;--pad-ink:#F4F0CC;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121A24;--surface:#19232F;--ink:#E9EDF2;--muted:#A3AEBB;--line:#2A3747;--head:#0B1119;
+  --band:#1A2A3D;--band-ink:#EEF1F5;--accent:#E2BE7E;--accent-ink:#1E2A38;--denim-text:#A9C1DE;
+  --pad:#3A381C;--pad-line:#3F5568;--pad-margin:#8A4A45;--pad-ink:#F4F0CC;color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:900;line-height:.95;letter-spacing:.005em;text-wrap:balance;margin:0;text-transform:uppercase}
+h2{font-size:clamp(2.2rem,6vw,3.4rem)}
+h3{font-size:1.6rem}
+p{margin:0}
+.label{font:500 .78rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:48px;padding:0 22px;border-radius:6px;font:700 1rem/1 var(--body);text-decoration:none;border:2px solid transparent;cursor:pointer}
+.btn-main{background:var(--accent);color:var(--accent-ink)}
+.btn-main:hover{filter:brightness(1.08)}
+.btn-ghost{border-color:currentColor;background:transparent}
+.btn:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* header: sticks to the top so the section links are always one tap away */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--head)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--head);color:var(--band-ink);box-shadow:0 1px 0 rgba(255,255,255,.06)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px 20px;padding-block:12px;flex-wrap:wrap}
+.mark{font:900 1.35rem/1 var(--display);text-transform:uppercase;letter-spacing:.02em;text-decoration:none}
+.mark span{color:var(--accent)}
+nav.main{display:flex;gap:6px;font-weight:600;font-size:.95rem;flex-wrap:wrap}
+nav.main a{text-decoration:none;padding:9px 12px;border-radius:999px;opacity:.9}
+nav.main a:hover{opacity:1;background:rgba(255,255,255,.1)}
+nav.main a.cta{background:var(--accent);color:var(--accent-ink);opacity:1}
+section[id],#partner{scroll-margin-top:118px}
+@media (min-width:761px){section[id],#partner{scroll-margin-top:72px}}
+footer nav{display:flex;gap:18px;font-weight:600}
+footer nav a{text-decoration:none;opacity:.85}
+footer nav a:hover{opacity:1;text-decoration:underline}
+
+/* hero */
+.hero{background:var(--band);color:var(--band-ink);padding-block:40px 64px}
+.hero .wrap{display:grid;gap:22px}
+.hero .label{color:var(--accent)}
+.hero h1{font-size:clamp(3.4rem,13vw,7.6rem);max-width:11ch}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lede{font-size:1.15rem;max-width:34em;opacity:.92}
+.hero .actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero .btn-ghost{color:var(--band-ink)}
+.proof{display:flex;gap:28px;flex-wrap:wrap;margin-top:8px;font-size:.95rem;opacity:.9}
+.proof b{font:900 1.7rem/1 var(--display);display:block;color:var(--band-ink)}
+
+section{padding-block:64px}
+.head{display:grid;gap:10px;margin-bottom:28px;max-width:40em}
+.head p{color:var(--muted)}
+
+/* latest video */
+#watch{padding-top:0}
+.video{margin-top:-36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.thumb{position:relative;display:block;aspect-ratio:16/9;max-width:100%;border-radius:6px;overflow:hidden;background:linear-gradient(135deg,#3A5675,#1E2A38);text-decoration:none}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb .play{position:absolute;inset:0;display:grid;place-items:center}
+.thumb .play i{width:72px;height:72px;border-radius:50%;background:var(--accent);display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.35)}
+.thumb .play i::after{content:"";border-left:22px solid #1E2A38;border-top:13px solid transparent;border-bottom:13px solid transparent;margin-left:6px}
+.video .info{display:grid;gap:14px;min-width:0;padding-right:8px}
+.video h3{font-size:1.9rem;line-height:1}
+.video .actions{display:flex;gap:10px;flex-wrap:wrap}
+.video .btn-ghost{color:var(--ink)}
+
+/* nominate */
+#nominate{background:var(--surface);border-block:1px solid var(--line)}
+.nom{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:40px;align-items:start}
+.steps{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:16px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start;counter-increment:s}
+.steps li::before{content:counter(s);font:900 1.5rem/40px var(--display);text-align:center;width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--bg)}
+.steps b{display:block}
+.steps span{color:var(--muted);font-size:.95rem}
+
+.pad{position:relative;background:var(--pad);color:var(--pad-ink);border-radius:4px 4px 8px 8px;padding:56px 22px 26px 56px;box-shadow:0 1px 0 rgba(0,0,0,.08),0 14px 30px -18px rgba(0,0,0,.45);
+  background-image:linear-gradient(to right,transparent 40px,var(--pad-margin) 40px,var(--pad-margin) 42px,transparent 42px),repeating-linear-gradient(to bottom,transparent 0 31px,var(--pad-line) 31px 32px);background-position:0 0,0 40px}
+.pad::before{content:"";position:absolute;left:0;right:0;top:0;height:30px;background:var(--band);border-radius:4px 4px 0 0}
+.pad h3{font-size:1.9rem;margin-bottom:6px}
+.pad .sub{font-size:.95rem;margin-bottom:18px}
+form{display:grid;gap:16px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:grid;gap:6px;min-width:0}
+.field label,.field legend{font-weight:700;font-size:.92rem}
+.field small{font-size:.82rem;opacity:.8}
+input,select,textarea{width:100%;font:500 1rem/1.4 var(--body);color:var(--pad-ink);background:rgba(255,255,255,.55);border:1.5px solid rgba(29,42,32,.35);border-radius:6px;padding:11px 12px}
+textarea{min-height:130px;resize:vertical}
+fieldset{border:0;padding:0;margin:0;display:grid;gap:8px}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choices label{display:flex;align-items:center;gap:8px;font-weight:600;font-size:.95rem;background:rgba(255,255,255,.55);border:1.5px solid rgba(29,42,32,.35);border-radius:999px;padding:8px 14px;cursor:pointer}
+.choices input{width:auto;margin:0;accent-color:var(--band)}
+.hp{position:absolute;left:-9999px}
+.form-note{font-size:.85rem;opacity:.85}
+.status{font-weight:700;padding:12px 14px;border-radius:6px;background:rgba(255,255,255,.65)}
+
+/* about */
+.about{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;align-items:start}
+.about .copy{display:grid;gap:16px;max-width:36em}
+.slogan{font:900 clamp(2rem,5vw,2.8rem)/1 var(--display);text-transform:uppercase;color:var(--denim-text);border-left:6px solid var(--accent);padding-left:16px}
+
+/* shop + partner */
+#shop{background:var(--surface);border-top:1px solid var(--line)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{border:1px solid var(--line);border-radius:10px;padding:26px;display:grid;gap:14px;align-content:start;background:var(--bg)}
+.card.shop{background:var(--band);color:var(--band-ink);border-color:var(--band)}
+.card.shop .label{color:var(--accent)}
+.card.shop h3{font-size:2.3rem}
+.card .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.card .btn-ghost{color:var(--ink)}
+.email{font:500 .95rem/1.4 var(--mono);user-select:all;word-break:break-all}
+
+footer{background:var(--band);color:var(--band-ink);padding-block:36px;font-size:.92rem}
+footer .wrap{display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap;align-items:center}
+footer nav{flex-wrap:wrap}
+
+@media (max-width:760px){
+  .video,.nom,.about,.duo{grid-template-columns:1fr}
+  .video .info{padding:0 4px 6px}
+  .row2{grid-template-columns:1fr}
+  .pad{padding-left:50px;padding-right:16px}
+  header.top .wrap{gap:8px}
+  nav.main{width:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-6px}
+  nav.main::-webkit-scrollbar{display:none}
+  nav.main a{padding:8px 10px;font-size:.9rem;white-space:nowrap}
+  section{padding-block:48px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="#top">Derek's <span>Community</span> Rescue</a>
+    <nav class="main" aria-label="Site">
+      <a href="#watch">Watch</a><a href="#about">About</a><a href="#shop">Shop</a><a href="#partner">Partners</a><a class="cta" href="#nominate">Nominate</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <p class="label">Free property cleanups · West Texas</p>
+      <h1>Now we can't have <em>that</em> here.</h1>
+      <p class="lede">I clean up overgrown yards and properties for people who have fallen behind, completely free and no questions asked. Then I put the whole thing on YouTube.</p>
+      <div class="actions">
+        <a class="btn btn-main" href="#nominate">Nominate someone</a>
+        <a class="btn btn-ghost" href="#watch">Watch the latest</a>
+      </div>
+      <div class="proof">
+        <div><b>40K+</b>subscribers on YouTube</div>
+        <div><b>$0</b>cost to the homeowner, ever</div>
+      </div>
+    </div>
+  </div>
+
+  <section id="watch">
+    <div class="wrap">
+      <div class="video">
+        <a class="thumb" id="vid-link" href="https://www.youtube.com/watch?v=S58fgeY_0Tc&utm_source=website" target="_blank" rel="noopener">
+          <img id="vid-img" src="https://i.ytimg.com/vi/S58fgeY_0Tc/maxresdefault.jpg" alt="" onerror="this.remove()">
+          <span class="play"><i></i></span>
+        </a>
+        <div class="info">
+          <p class="label">Latest video</p>
+          <h3 id="vid-title">She Cried After Struggling for 2 Years With Her Yard</h3>
+          <p>New cleanups go up every Sunday.</p>
+          <div class="actions">
+            <a class="btn btn-main" id="vid-watch" href="https://www.youtube.com/watch?v=S58fgeY_0Tc&utm_source=website" target="_blank" rel="noopener">Watch on YouTube</a>
+            <a class="btn btn-ghost" href="https://www.youtube.com/channel/UCGHR5gy7_jPfWUTxIOvCUDA?sub_confirmation=1" target="_blank" rel="noopener">Subscribe</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="nominate">
+    <div class="wrap nom">
+      <div>
+        <div class="head">
+          <p class="label">Know someone?</p>
+          <h2>Nominate a yard</h2>
+          <p>Maybe it's a neighbor who got sick, an older couple who can't keep up, or a family that just got buried by life. Tell me about them. You can nominate yourself, too.</p>
+        </div>
+        <ol class="steps">
+          <li><div><b>You tell me about them</b><span>Fill out the form. It takes about two minutes.</span></div></li>
+          <li><div><b>I reach out</b><span>I read every one and contact the homeowner to ask if they want the help.</span></div></li>
+          <li><div><b>We pick a day and get it done</b><span>Mowing, trimming, hauling, whatever it takes. Free.</span></div></li>
+        </ol>
+      </div>
+
+      <div class="pad">
+        <h3>Nomination</h3>
+        <p class="sub">I only work close to home in West Texas, so please include the town.</p>
+        <form id="nom-form" action="https://formspree.io/f/xbdwpnkk" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="New yard nomination from the website">
+          <label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" id="f-gotcha" tabindex="-1" autocomplete="off"></label>
+          <div class="row2">
+            <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name" required></div>
+            <div class="field"><label for="f-email">Your email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="f-phone">Your phone <small>(optional)</small></label><input id="f-phone" name="phone" type="tel" autocomplete="tel"></div>
+            <div class="field"><label for="f-town">Town</label><input id="f-town" name="town" required></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label for="f-who">Who needs help?</label><input id="f-who" name="nominee" placeholder="Their first name is fine"></div>
+            <div class="field"><label for="f-rel">How do you know them?</label>
+              <select id="f-rel" name="relationship">
+                <option value="">Choose one</option>
+                <option>It's me</option><option>Neighbor</option><option>Family</option><option>Friend</option><option>Coworker</option><option>Other</option>
+              </select></div>
+          </div>
+          <div class="field"><label for="f-story">What's going on?</label>
+            <textarea id="f-story" name="story" required placeholder="What does the yard look like, and how did it get that way?"></textarea></div>
+          <fieldset class="field">
+            <legend>Would they be OK being on camera?</legend>
+            <div class="choices">
+              <label><input type="radio" name="on_camera" id="cam-yes" value="Yes"> Yes</label>
+              <label><input type="radio" name="on_camera" id="cam-maybe" value="Not sure"> Not sure</label>
+              <label><input type="radio" name="on_camera" id="cam-no" value="Probably not"> Probably not</label>
+            </div>
+          </fieldset>
+          <button class="btn btn-main" type="submit">Send nomination</button>
+          <p class="form-note">Your info only goes to me. I never post anyone's address.</p>
+          <p class="status" id="nom-status" role="status" hidden></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap about">
+      <div class="head">
+        <p class="label">About</p>
+        <h2>Hey, I'm Derek</h2>
+      </div>
+      <div class="copy">
+        <p>Derek's Community Rescue started with a setback. I was driving a semi truck for the Postal Service when I was in a serious accident. It wasn't my fault, but it still cost me my job, and that paycheck was my family's only income.</p>
+        <p>With my last $500, I bought a cheap push mower, a string trimmer and a broom, and started mowing lawns to keep food on the table. That small start grew into the lawn care business I still run today.</p>
+        <p>Doing that work, I kept seeing yards that had gotten away from people. Behind almost every one was someone going through something hard. I knew what it was like to have life knock you down, so I started showing up.</p>
+        <p>Every cleanup is completely free for the homeowner, no questions asked. I mow, trim, haul it all off, and film the whole thing start to finish, so you can see the mess, the work, and the moment the homeowner sees their yard again.</p>
+        <p class="slogan">Now we can't have that here.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="shop">
+    <div class="wrap duo">
+      <div class="card shop">
+        <p class="label">The merch</p>
+        <h3>Wear the slogan</h3>
+        <p>Shirts, hats and more with the line from the videos, made to hold up to real yard work.</p>
+        <div class="actions"><a class="btn btn-main" href="https://dereks-lawn-rescue-shop.fourthwall.com/?utm_source=website&utm_medium=site&utm_campaign=home" target="_blank" rel="noopener">Shop the store</a></div>
+      </div>
+
+      <div class="card" id="partner">
+        <p class="label" id="partner-label">For brands</p>
+        <h3 id="partner-name">Partner with the channel</h3>
+        <p id="partner-copy">Put your brand in front of 40K+ subscribers who watch long, story-driven cleanup videos start to finish. Integrations and equipment partnerships welcome.</p>
+        <div class="actions"><a class="btn btn-ghost" id="partner-link" href="mailto:derekslawnrescue@gmail.com?subject=Partnership%20inquiry">Email Derek</a></div>
+        <p class="email" id="partner-email">derekslawnrescue@gmail.com</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© Derek's Community Rescue · West Texas</span>
+    <nav aria-label="Elsewhere">
+      <a href="https://www.youtube.com/channel/UCGHR5gy7_jPfWUTxIOvCUDA" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://www.youtube.com/channel/UCGHR5gy7_jPfWUTxIOvCUDA/join" target="_blank" rel="noopener">Join the channel</a>
+      <a href="https://dereks-lawn-rescue-shop.fourthwall.com/?utm_source=website&utm_medium=site&utm_campaign=footer" target="_blank" rel="noopener">Store</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+/* Featured partner slot. To feature a sponsor, fill this in (leave name empty to show the "For brands" pitch). */
+const PARTNER = { name: "", blurb: "", url: "", button: "Check them out" };
+
+(function(){
+  if (PARTNER.name) {
+    document.getElementById('partner-label').textContent = 'Featured partner';
+    document.getElementById('partner-name').textContent = PARTNER.name;
+    document.getElementById('partner-copy').textContent = PARTNER.blurb;
+    const a = document.getElementById('partner-link');
+    a.href = PARTNER.url; a.textContent = PARTNER.button; a.target = '_blank'; a.rel = 'noopener sponsored';
+    document.getElementById('partner-email').hidden = true;
+  }
+
+  /* Latest long video: latest.json is refreshed daily by a GitHub Action */
+  fetch('latest.json', {cache:'no-store'}).then(r => r.ok ? r.json() : null).then(v => {
+    if (!v || !v.id) return;
+    const url = 'https://www.youtube.com/watch?v=' + encodeURIComponent(v.id) + '&utm_source=website';
+    document.getElementById('vid-link').href = url;
+    document.getElementById('vid-watch').href = url;
+    if (v.title) document.getElementById('vid-title').textContent = v.title;
+    const img = document.getElementById('vid-img');
+    if (img) img.src = 'https://i.ytimg.com/vi/' + encodeURIComponent(v.id) + '/maxresdefault.jpg';
+  }).catch(() => {});
+
+  /* Nomination form: sends to Formspree without leaving the page */
+  const form = document.getElementById('nom-form');
+  const status = document.getElementById('nom-status');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.hidden = false;
+    const missing = [...form.querySelectorAll('[required]')].find(el => !el.value.trim());
+    if (missing) { status.textContent = 'Please fill in "' + form.querySelector('label[for="' + missing.id + '"]').textContent.trim() + '".'; missing.focus(); return; }
+    const email = document.getElementById('f-email');
+    if (!email.checkValidity()) { status.textContent = 'That email address looks off. Check it and try again.'; email.focus(); return; }
+    status.textContent = 'Sending...';
+    try {
+      const res = await fetch(form.action, { method:'POST', body:new FormData(form), headers:{ 'Accept':'application/json' } });
+      if (!res.ok) throw new Error();
+      form.reset();
+      status.textContent = 'Got it. Thank you for looking out for them. I read every nomination and will reach out if it is a fit.';
+    } catch (err) {
+      status.textContent = 'That did not go through. Try again in a minute, or email derekslawnrescue@gmail.com.';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
