@@ -261,9 +261,11 @@ footer nav{flex-wrap:wrap}
       <div class="pad">
         <h3>Nomination</h3>
         <p class="sub">I only work close to home, so please include the town.</p>
-        <form id="nom-form" action="https://formspree.io/f/xbdwpnkk" method="POST" novalidate>
+        <form id="nom-form" action="https://formsubmit.co/ajax/derekslawnrescue@gmail.com" method="POST" novalidate>
           <input type="hidden" name="_subject" value="New yard nomination from the website">
-          <label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" id="f-gotcha" tabindex="-1" autocomplete="off"></label>
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_honey" id="f-gotcha" tabindex="-1" autocomplete="off"></label>
           <div class="row2">
             <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name" required></div>
             <div class="field"><label for="f-email">Your email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
@@ -373,7 +375,7 @@ const PARTNER = { name: "", blurb: "", url: "", button: "Check them out" };
     if (img) img.src = 'https://i.ytimg.com/vi/' + encodeURIComponent(v.id) + '/maxresdefault.jpg';
   }).catch(() => {});
 
-  /* Nomination form: sends to Formspree without leaving the page */
+  /* Nomination form: sends to Derek's email through FormSubmit without leaving the page */
   const form = document.getElementById('nom-form');
   const status = document.getElementById('nom-status');
   form.addEventListener('submit', async (e) => {
@@ -386,7 +388,8 @@ const PARTNER = { name: "", blurb: "", url: "", button: "Check them out" };
     status.textContent = 'Sending...';
     try {
       const res = await fetch(form.action, { method:'POST', body:new FormData(form), headers:{ 'Accept':'application/json' } });
-      if (!res.ok) throw new Error();
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || String(out.success) === 'false') throw new Error();
       form.reset();
       status.textContent = 'Got it. Thank you for looking out for them. I read every nomination and will reach out if it is a fit.';
     } catch (err) {
