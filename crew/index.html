@@ -99,6 +99,18 @@ footer a:hover{opacity:1;text-decoration:underline}
   .names{grid-template-columns:1fr 1fr}
 }
 @media (max-width:380px){.names{grid-template-columns:1fr}}
+
+/* Rescue Crew plaque: the channel members whose names go on the trailer's plaque */
+.plaque{padding-block:44px 8px}
+.plaque .wrap{display:grid;gap:18px}
+.plaque .label{color:var(--num)}
+.plaque h2{font-size:clamp(2.2rem,9vw,3.2rem)}
+.plaque .lede{max-width:38em;color:var(--muted)}
+.plate{background:var(--band);color:var(--band-ink);border:2px solid var(--accent);border-radius:12px;padding:22px 20px;display:grid;gap:14px}
+.plate .plate-title{font:900 1.4rem/1 var(--display);text-transform:uppercase;letter-spacing:.04em;color:var(--accent);text-align:center}
+.crew-names{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 10px}
+.crew-names li{font-weight:600;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);overflow-wrap:anywhere;max-width:100%}
+.plaque .join{justify-self:start;font-weight:600;text-underline-offset:3px;color:var(--num)}
 </style>
 </head>
 <body>
@@ -123,6 +135,19 @@ footer a:hover{opacity:1;text-decoration:underline}
       <p class="note">Every Crew sticker puts $15 toward a dump trailer for bigger cleanups. There's no set date: the trailer gets bought when this bar fills. If a sponsor covers the trailer first, the fund rolls over to the next machine we need. Every name here goes on the equipment.</p>
       <a class="btn" href="https://dereks-lawn-rescue-shop.fourthwall.com/products/rescue-crew-trailer-sticker?utm_source=website&utm_medium=crew-wall" target="_blank" rel="noopener">Get your sticker</a>
       <p class="chip-in">Don’t need a sticker? You can <a href="https://dereks-lawn-rescue-shop.fourthwall.com/pages/trailer-fund?utm_source=website&utm_medium=crew-wall" target="_blank" rel="noopener">chip in directly</a>.</p>
+    </div>
+  </section>
+
+  <section class="plaque" aria-labelledby="plaque-title" id="rescue-crew">
+    <div class="wrap">
+      <p class="label">Rescue Crew</p>
+      <h2 id="plaque-title">On the Plaque</h2>
+      <p class="lede">These are the Rescue Crew members on the YouTube channel. They show up every month, and that's a big part of why I can keep showing up for people. When the trailer is bought, everyone in the Rescue Crew that day gets their name on a plaque that rides along to every job.</p>
+      <div class="plate">
+        <p class="plate-title">The Rescue Crew</p>
+        <ul class="crew-names" id="crew-names" aria-label="Rescue Crew members"></ul>
+      </div>
+      <a class="join" href="https://www.youtube.com/channel/UCGHR5gy7_jPfWUTxIOvCUDA/join" target="_blank" rel="noopener">Join the Rescue Crew on YouTube</a>
     </div>
   </section>
 
@@ -199,6 +224,16 @@ footer a:hover{opacity:1;text-decoration:underline}
   get('../data/fund.json').catch(() => get('data/fund.json'))
     .then(render)
     .catch(() => { render({goal:11000, raised:0, names:[]}); $('updated').textContent = "Couldn't load the fund just now. Refresh the page to try again."; });
+
+  // Rescue Crew plaque names (kept in their own file, separate from the fund money)
+  get('../data/rescue-crew.json').catch(() => get('data/rescue-crew.json'))
+    .then(d => {
+      const list = $('crew-names'); list.textContent = '';
+      (Array.isArray(d.members) ? d.members : []).map(s => String(s).trim()).filter(Boolean)
+        .forEach(name => { const li = document.createElement('li'); li.textContent = name; list.append(li); });
+      $('rescue-crew').hidden = list.children.length === 0;
+    })
+    .catch(() => { $('rescue-crew').hidden = true; });
 })();
 </script>
 
