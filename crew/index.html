@@ -83,6 +83,9 @@ nav.main a.cta{background:var(--accent);color:var(--accent-ink);opacity:1}
 .empty{background:var(--surface);border:1.5px dashed var(--line);border-radius:10px;padding:28px 20px;text-align:center;display:grid;gap:14px;justify-items:center}
 .empty p{font:900 clamp(1.6rem,7vw,2.2rem)/1 var(--display);text-transform:uppercase}
 .nomatch{color:var(--muted)}
+.show-all{justify-self:start;font:600 1rem/1 var(--body);color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:999px;padding:12px 20px;cursor:pointer}
+.show-all:hover{border-color:var(--accent)}
+.show-all:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .add-name{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
 .add-name p{font-weight:600;flex:1 1 220px}
 .add-name small{display:block;font-weight:400;color:var(--muted);font-size:.9rem;margin-top:2px}
@@ -171,6 +174,7 @@ footer a:hover{opacity:1;text-decoration:underline}
         <a class="btn" href="https://dereks-lawn-rescue-shop.fourthwall.com/products/rescue-crew-trailer-sticker?utm_source=website&utm_medium=crew-wall-empty" target="_blank" rel="noopener">Get your sticker</a>
       </div>
       <p class="nomatch" id="nomatch" hidden>No names match that yet.</p>
+      <button class="show-all" id="show-all" type="button" hidden></button>
       <div class="add-name" id="add-name" hidden>
         <p>Help make Derek's job a little easier.<small>Don’t need a sticker? You can <a href="https://dereks-lawn-rescue-shop.fourthwall.com/pages/trailer-fund?utm_source=website&utm_medium=crew-wall-bottom" target="_blank" rel="noopener">chip in directly</a>.</small></p>
         <a class="btn" href="https://dereks-lawn-rescue-shop.fourthwall.com/products/rescue-crew-trailer-sticker?utm_source=website&utm_medium=crew-wall-bottom" target="_blank" rel="noopener">Add your name</a>
@@ -219,16 +223,30 @@ footer a:hover{opacity:1;text-decoration:underline}
     $('add-name').hidden = names.length === 0;
     list.hidden = names.length === 0;
     $('find').hidden = names.length < 12;
+    applyView();
 
     const d = new Date(f.updated);
     $('updated').textContent = 'Updated every evening.' + (isNaN(d) ? '' : ' Last update: ' + d.toLocaleString('en-US', {month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit', timeZoneName:'short'}) + '.');
   }
 
-  $('find-input').addEventListener('input', e => {
-    const q = e.target.value.trim().toLowerCase(); let shown = 0;
-    document.querySelectorAll('#names li').forEach(li => { const ok = !q || li.dataset.q.includes(q); li.hidden = !ok; if (ok) shown++; });
-    $('nomatch').hidden = shown > 0;
-  });
+  // Long walls stay short: show the first LIMIT names, with search and a "Show all" button for the rest
+  const LIMIT = 24;
+  let expanded = false;
+  function applyView(){
+    const q = $('find-input').value.trim().toLowerCase();
+    const items = document.querySelectorAll('#names li');
+    let shown = 0;
+    items.forEach((li, i) => {
+      const ok = q ? li.dataset.q.includes(q) : (expanded || i < LIMIT);
+      li.hidden = !ok; if (ok) shown++;
+    });
+    $('nomatch').hidden = !q || shown > 0;
+    const more = !q && !expanded && items.length > LIMIT;
+    $('show-all').hidden = !more;
+    if (more) $('show-all').textContent = 'Show all ' + items.length.toLocaleString('en-US') + ' names';
+  }
+  $('find-input').addEventListener('input', applyView);
+  $('show-all').addEventListener('click', () => { expanded = true; applyView(); });
 
   const get = u => fetch(u + '?t=' + Date.now(), {cache:'no-store'}).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
   get('../data/fund.json').catch(() => get('data/fund.json'))
